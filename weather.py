@@ -29,8 +29,10 @@ def save_state(state):
         json.dump(state, f)
 
 def get_weather():
-    url = f"https://api.openweathermap.org/data/3.0/onecall?lat={LAT}&lon={LON}&appid={API_KEY}&units=imperial"
-    return requests.get(url).json()
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={LAT}&lon={LON}&appid={API_KEY}&units=imperial"
+    response = requests.get(url)
+    return response.json()
+
 
 def send_text(message):
     print("Sending WhatsApp message...")
@@ -47,10 +49,17 @@ def run():
     print("Running weather script...")
 
     data = get_weather()
-    print("API response:")
-    print(data)
+    print("Weather data received.")
 
-    return
+    current_temp = round(data["main"]["temp"])
+    current_desc = data["weather"][0]["description"].title()
+
+    message = f"{current_temp}°F — {current_desc}"
+    print("Prepared message:", message)
+
+    send_text(message)
+    print("send_text() called")
+
 
 if __name__ == "__main__":
     try:
