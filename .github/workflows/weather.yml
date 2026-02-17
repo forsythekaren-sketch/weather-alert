@@ -1,8 +1,6 @@
 name: Weather Text Alerts
 
 on:
-  schedule:
-    - cron: "*/15 11-2,6-23 * * *"
   workflow_dispatch:
 
 jobs:
@@ -19,8 +17,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run weather script
         env:
@@ -32,4 +29,3 @@ jobs:
           FROM_NUMBER: ${{ secrets.FROM_NUMBER }}
           TO_NUMBER: ${{ secrets.TO_NUMBER }}
         run: python weather.py
-
