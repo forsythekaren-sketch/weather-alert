@@ -37,28 +37,68 @@ def get_weather():
 def send_text(message):
     print("Sending WhatsApp message...")
     client = Client(TWILIO_SID, TWILIO_AUTH)
-    msg = client.messages.create(
-        body=message,
-        from_="whatsapp:+14155238886",
-        to=f"whatsapp:{TO_NUMBER}"
-    )
-    print("Message SID:", msg.sid)
 
+    recipients = [
+        f"whatsapp:{TO_NUMBER}",
+        f"whatsapp:{os.getenv('TO_NUMBER_2')}"
+    ]
+
+    for recipient in recipients:
+        msg = client.messages.create(
+            body=message,
+            from_="whatsapp:+14155238886",
+            to=recipient
+        )
+        print("Sent to", recipient, "SID:", msg.sid)
 
 def run():
     print("Running weather script...")
 
+    now = datetime.now()
+    hour = now.hour
+
     data = get_weather()
-    print("Weather data received.")
 
     current_temp = round(data["main"]["temp"])
     current_desc = data["weather"][0]["description"].title()
+    wind_speed = data["wind"]["speed"]
 
-    message = f"{current_temp}°F — {current_desc}"
-    print("Prepared message:", message)
+    message_parts = []
 
-    send_text(message)
-    print("send_text() called")
+    # 1️⃣ Hourly updates between 6 AM–9 PM
+    if 6 <= hour <= 21:
+        message_parts.append(f"{current_temp}°F — {current_desc}")
+
+    # 2️⃣ Rain / Snow detection
+    desc_lower = current_desc.lower()
+    if "rain" in desc_lower:
+        message_parts.append("🌧 Rain detected.")
+    if "snow" in desc_lower:
+        message_parts.append("❄️ Snow detected.")
+
+    # 3️⃣ Wind advisory approximation
+    if wind_speed >= 25:
+        message_parts.append(f"💨 High winds: {wind_speed} mph")
+
+    # 4️⃣ Tomorrow forecast at 8 PM
+    if hour == 20:
+        forecast = requests.get(
+            f"https://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&appid={API_KEY}&units=imperial"
+        ).json()
+
+        tomorrow = forecast["list"][8]  # ~24 hours ahead (3hr intervals)
+        high = round(tomorrow["main"]["temp"])
+        desc = tomorrow["weather"][0]["description"].title()
+
+        message_parts.append(f"🌤 Tomorrow: {high}°F — {desc}")
+
+    if message_parts:
+        final_message = "\n".join(message_parts)
+        send_text(final_message)
+        print("Message sent.")
+    else:
+        print("No conditions met. No message sent.")
+
 
 
 if __name__ == "__main__":
