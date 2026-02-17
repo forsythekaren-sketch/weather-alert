@@ -55,10 +55,10 @@ def run():
     current_temp = round(data["current"]["temp"])
     current_desc = data["current"]["weather"][0]["description"].title()
 
-    # Hourly update
-    if WAKE_HOUR <= hour <= SLEEP_HOUR:
-        message = f"{now.strftime('%I:%M %p')} Weather:\n{current_temp}°F — {current_desc}"
-        send_text(message)
+   # Always send current weather when run
+   message = f"{current_temp}°F — {current_desc}"
+   send_text(message)
+
 
     # Rain/Snow alert
     rain_expected = False
