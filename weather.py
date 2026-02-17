@@ -44,56 +44,15 @@ def send_text(message):
 
 
 def run():
-    
-    now = datetime.now()
-    today_str = now.strftime("%Y-%m-%d")
-    hour = now.hour
-
-    state = load_state()
+   def run():
     data = get_weather()
 
     current_temp = round(data["current"]["temp"])
     current_desc = data["current"]["weather"][0]["description"].title()
 
-   # Always send current weather when run
-   message = f"{current_temp}°F — {current_desc}"
-   send_text(message)
+    message = f"{current_temp}°F — {current_desc}"
 
-
-    # Rain/Snow alert
-    rain_expected = False
-    for hour_data in data["hourly"][:3]:
-        desc = hour_data["weather"][0]["description"].lower()
-        if "rain" in desc or "snow" in desc:
-            rain_expected = True
-            break
-
-    if rain_expected and not state["rain_alert_sent"]:
-        send_text("⚠️ Rain or snow expected soon.")
-        state["rain_alert_sent"] = True
-
-    if not rain_expected:
-        state["rain_alert_sent"] = False
-
-    # Severe alerts
-    if "alerts" in data:
-        for alert in data["alerts"]:
-            alert_id = alert.get("event") + str(alert.get("start"))
-            if alert_id != state["last_alert_id"]:
-                send_text(f"🚨 WEATHER ALERT:\n{alert['event']}")
-                state["last_alert_id"] = alert_id
-
-    # Tomorrow forecast at 8 PM
-    if hour == 20 and state["tomorrow_sent_date"] != today_str:
-        tomorrow = data["daily"][1]
-        high = round(tomorrow["temp"]["max"])
-        low = round(tomorrow["temp"]["min"])
-        desc = tomorrow["weather"][0]["description"].title()
-
-        send_text(f"🌤 Tomorrow:\nHigh {high}°F / Low {low}°F\n{desc}")
-        state["tomorrow_sent_date"] = today_str
-
-    save_state(state)
+    send_text(message)
 
 if __name__ == "__main__":
     try:
