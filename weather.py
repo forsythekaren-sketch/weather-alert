@@ -33,8 +33,15 @@ def get_weather():
     return requests.get(url).json()
 
 def send_text(message):
+    print("Attempting to send SMS...")
     client = Client(TWILIO_SID, TWILIO_AUTH)
-    client.messages.create(body=message, from_=FROM_NUMBER, to=TO_NUMBER)
+    msg = client.messages.create(
+        body=message,
+        from_=FROM_NUMBER,
+        to=TO_NUMBER
+    )
+    print("Message SID:", msg.sid)
+
 
 def run():
     send_text("Test message from GitHub Actions")
