@@ -49,16 +49,11 @@ def run():
     print("Running weather script...")
 
     data = get_weather()
-    print("Weather data received.")
+    print("FULL API RESPONSE:")
+    print(data)
 
-    current_temp = round(data["main"]["temp"])
-    current_desc = data["weather"][0]["description"].title()
+    return
 
-    message = f"{current_temp}°F — {current_desc}"
-    print("Prepared message:", message)
-
-    send_text(message)
-    print("send_text() called")
 
 
 if __name__ == "__main__":
