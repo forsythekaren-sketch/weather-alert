@@ -32,13 +32,13 @@ def get_weather():
     url = f"https://api.openweathermap.org/data/3.0/onecall?lat={LAT}&lon={LON}&appid={API_KEY}&units=imperial"
     return requests.get(url).json()
 
-def send_text(message):
-    print("Attempting to send SMS...")
+ddef send_text(message):
+    print("Sending WhatsApp message...")
     client = Client(TWILIO_SID, TWILIO_AUTH)
     msg = client.messages.create(
         body=message,
-        from_=FROM_NUMBER,
-        to=TO_NUMBER
+        from_="whatsapp:+14155238886",
+        to=f"whatsapp:{TO_NUMBER}"
     )
     print("Message SID:", msg.sid)
 
