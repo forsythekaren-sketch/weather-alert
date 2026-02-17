@@ -37,6 +37,9 @@ def send_text(message):
     client.messages.create(body=message, from_=FROM_NUMBER, to=TO_NUMBER)
 
 def run():
+        send_text("Test message from GitHub Actions")
+    return
+
     now = datetime.now()
     today_str = now.strftime("%Y-%m-%d")
     hour = now.hour
