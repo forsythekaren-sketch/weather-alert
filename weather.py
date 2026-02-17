@@ -44,9 +44,7 @@ def send_text(message):
 
 
 def run():
-    send_text("Test message from GitHub Actions")
-    return
-
+    
     now = datetime.now()
     today_str = now.strftime("%Y-%m-%d")
     hour = now.hour
