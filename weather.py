@@ -44,15 +44,19 @@ def send_text(message):
 
 
 def run():
-   def run():
+    print("Running weather script...")
+
     data = get_weather()
+    print("Weather data received.")
 
     current_temp = round(data["current"]["temp"])
     current_desc = data["current"]["weather"][0]["description"].title()
 
     message = f"{current_temp}°F — {current_desc}"
+    print("Prepared message:", message)
 
     send_text(message)
+    print("send_text() called")
 
 if __name__ == "__main__":
     try:
