@@ -32,7 +32,7 @@ def get_weather():
     url = f"https://api.openweathermap.org/data/3.0/onecall?lat={LAT}&lon={LON}&appid={API_KEY}&units=imperial"
     return requests.get(url).json()
 
-ddef send_text(message):
+def send_text(message):
     print("Sending WhatsApp message...")
     client = Client(TWILIO_SID, TWILIO_AUTH)
     msg = client.messages.create(
