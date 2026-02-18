@@ -1,3 +1,4 @@
+import pytz
 import requests
 import json
 import os
@@ -54,7 +55,9 @@ def send_text(message):
 def run():
     print("Running weather script...")
 
-    now = datetime.now()
+    eastern = pytz.timezone("America/New_York")
+    now = datetime.now(eastern)
+
     hour = now.hour
 
     data = get_weather()
