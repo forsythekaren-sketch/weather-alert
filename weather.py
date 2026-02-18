@@ -69,7 +69,7 @@ def run():
     message_parts = []
 
     # 1️⃣ Hourly updates between 6 AM–9 PM
-    if 6 <= hour <= 21:
+    if True:
         message_parts.append(f"{current_temp}°F — {current_desc}")
 
     # 2️⃣ Rain / Snow detection
