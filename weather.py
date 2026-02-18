@@ -1,7 +1,7 @@
+import os
 import pytz
 import requests
 import json
-import os
 from datetime import datetime
 from twilio.rest import Client
 
@@ -34,7 +34,6 @@ def get_weather():
     response = requests.get(url)
     return response.json()
 
-
 def send_text(message):
     print("Sending WhatsApp message...")
     client = Client(TWILIO_SID, TWILIO_AUTH)
@@ -52,6 +51,7 @@ def send_text(message):
             to=recipient
         )
         print("Sent to", recipient, "SID:", msg.sid)
+
 
 
 for recipient in recipients:
