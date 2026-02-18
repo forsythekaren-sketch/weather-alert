@@ -53,17 +53,6 @@ def send_text(message):
         print("Sent to", recipient, "SID:", msg.sid)
 
 
-
-for recipient in recipients:
-    print("Attempting send to:", recipient)
-    msg = client.messages.create(
-        body=message,
-        from_="whatsapp:+14155238886",
-        to=recipient
-    )
-    print("Sent to", recipient, "SID:", msg.sid)
-
-
 def run():
     print("Running weather script...")
 
