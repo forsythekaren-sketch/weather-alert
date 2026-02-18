@@ -39,10 +39,20 @@ def send_text(message):
     print("Sending WhatsApp message...")
     client = Client(TWILIO_SID, TWILIO_AUTH)
 
-   recipient_1 = f"whatsapp:{TO_NUMBER}"
-   recipient_2 = f"whatsapp:{os.environ['TO_NUMBER_2']}"
+    recipient_1 = f"whatsapp:{TO_NUMBER}"
+    recipient_2 = f"whatsapp:{os.environ['TO_NUMBER_2']}"
 
-   recipients = [recipient_1, recipient_2]
+    recipients = [recipient_1, recipient_2]
+
+    for recipient in recipients:
+        print("Attempting send to:", recipient)
+        msg = client.messages.create(
+            body=message,
+            from_="whatsapp:+14155238886",
+            to=recipient
+        )
+        print("Sent to", recipient, "SID:", msg.sid)
+
 
 for recipient in recipients:
     print("Attempting send to:", recipient)
