@@ -30,4 +30,6 @@ jobs:
           TWILIO_AUTH: ${{ secrets.TWILIO_AUTH }}
           FROM_NUMBER: ${{ secrets.FROM_NUMBER }}
           TO_NUMBER: ${{ secrets.TO_NUMBER }}
+          TO_NUMBER_2: ${{ secrets.TO_NUMBER_2 }}
+
         run: python weather.py
