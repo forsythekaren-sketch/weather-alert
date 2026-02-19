@@ -27,10 +27,9 @@ jobs:
           OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
           LAT: ${{ secrets.LAT }}
           LON: ${{ secrets.LON }}
-          TWILIO_SID: ${{ secrets.TWILIO_SID }}
-          TWILIO_AUTH: ${{ secrets.TWILIO_AUTH }}
-          FROM_NUMBER: ${{ secrets.FROM_NUMBER }}
-          TO_NUMBER: ${{ secrets.TO_NUMBER }}
-          TO_NUMBER_2: ${{ secrets.TO_NUMBER_2 }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_1: ${{ secrets.TELEGRAM_CHAT_1 }}
+          TELEGRAM_CHAT_2: ${{ secrets.TELEGRAM_CHAT_2 }}
 
+         
         run: python weather.py
