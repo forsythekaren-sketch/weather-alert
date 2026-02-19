@@ -35,22 +35,23 @@ def get_weather():
     return response.json()
 
 def send_text(message):
-    print("Sending WhatsApp message...")
-    client = Client(TWILIO_SID, TWILIO_AUTH)
+    print("Sending Telegram message...")
 
-    recipient_1 = f"whatsapp:{TO_NUMBER}"
-    recipient_2 = f"whatsapp:{os.environ['TO_NUMBER_2']}"
+    token = os.getenv("TELEGRAM_TOKEN")
+    chat_ids = [
+        os.getenv("TELEGRAM_CHAT_1"),
+        os.getenv("TELEGRAM_CHAT_2")
+    ]
 
-    recipients = [recipient_1, recipient_2]
-
-    for recipient in recipients:
-        print("Attempting send to:", recipient)
-        msg = client.messages.create(
-            body=message,
-            from_="whatsapp:+14155238886",
-            to=recipient
-        )
-        print("Sent to", recipient, "SID:", msg.sid)
+    for chat_id in chat_ids:
+        if chat_id:
+            url = f"https://api.telegram.org/bot{token}/sendMessage"
+            payload = {
+                "chat_id": chat_id,
+                "text": message
+            }
+            response = requests.post(url, data=payload)
+            print("Sent to", chat_id, response.status_code)
 
 
 def run():
